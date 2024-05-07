@@ -1,0 +1,17 @@
+---
+# tasks file for tomcat
+- name: Jdk Installation
+  shell: "/home/saad/ansible/roles/tomcat/files/Jdk_installation.sh"
+- name: Tomcat Download
+  get_url:
+    url: "https://downloads.apache.org/tomcat/tomcat-9/v9.0.88/bin/apache-tomcat-9.0.88.tar.gz"
+    dest: /home/saad/apache-tomcat-9.0.88.tar.gz
+- name: extract tomcat archive
+  ansible.builtin.unarchive:
+    src: "/home/saad/apache-tomcat-9.0.88.tar.gz"
+    dest: "/home/saad"
+    remote_src: yes
+    extra_opts: --strip-components=1
+- name: start tomcat service
+  shell: "/home/saad/bin/startup.sh"
+

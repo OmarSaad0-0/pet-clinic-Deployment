@@ -1,0 +1,10 @@
+- name: server installations
+  become: true
+  become_method: su
+  become_user: saad
+  hosts: localhost
+  roles:
+    - role: roles/tomcat
+    - role: roles/nagios
+    - role: roles/jenkins
+

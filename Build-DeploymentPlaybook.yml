@@ -1,0 +1,7 @@
+---
+- name: WAR File Depoloyment
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Execute deployment
+      shell: "/home/saad/ansible/Build-Deployment.sh"

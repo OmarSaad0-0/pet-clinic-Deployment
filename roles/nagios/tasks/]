@@ -1,0 +1,75 @@
+    - name: Download Apache source tarball
+      get_url:
+        url: "https://archive.apache.org/dist/httpd/httpd-2.4.46.tar.gz"
+        dest: "/home/saad/httpd-2.4.46.tar.gz"
+
+    - name: Extract Apache source tarball
+      ansible.builtin.command: tar -xvf /tmp/httpd-2.4.46.tar.gz -C /home/saad
+
+    - name: Compile and install Apache
+      ansible.builtin.shell: |
+        cd /home/saad/httpd-2.4.46
+        ./configure
+        make
+        make install
+        exit 0
+    - name: Download PHP source tarball
+      get_url:
+        url: "https://www.php.net/distributions/php-8.3.6.tar.gz"
+        dest: "/home/saad/php-8.3.6.tar.gz"
+
+    - name: Extract PHP source tarball
+      ansible.builtin.command: tar -xvf /tmp/php-8.3.6.tar.gz -C /home/saad
+
+    - name: Compile and install PHP
+      ansible.builtin.shell: |
+        cd /home/saad/php-8.3.6
+        ./configure
+        make
+        make install
+        exit 0
+    - name: Download Nagios Core source
+      get_url:
+        url: "https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.10.tar.gz"
+        dest: "/home/saad/nagios-4.4.10.tar.gz"
+
+    - name: Extract Nagios Core source
+      ansible.builtin.command: tar -zxvf /tmp/nagios-4.4.10.tar.gz -C /home/saad
+
+    - name: Compile and install Nagios Core
+      ansible.builtin.shell: |
+        cd /home/saad/nagioscore-nagios-4.4.10
+        ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+        make all
+        make install
+        make install-init
+        make install-commandmode
+        exit 0
+
+    - name: Download Nagios Plugins source
+      get_url:
+        url: "https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz"
+        dest: "/home/saad/nagios-plugins-2.3.3.tar.gz"
+
+    - name: Extract Nagios Plugins source
+      ansible.builtin.command: tar -zxvf /tmp/nagios-plugins-2.3.3.tar.gz -C /home/saad
+
+    - name: Compile and install Nagios Plugins
+      ansible.builtin.shell: |
+        cd /home/saad/nagios-plugins-release-2.3.3
+        ./tools/setup
+        ./configure
+        make
+        make install
+        exit 0
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+
+    - name: Start Nagios service
+      service:
+        name: nagios
+        state: started
+        enabled: yes
