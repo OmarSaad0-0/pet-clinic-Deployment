@@ -1,0 +1,82 @@
+
+# tasks file for nagios
+- name: install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+      - wget
+      - unzip
+      - curl
+      - openssl
+      - build-essential
+      - libgd-dev
+      - libssl-dev
+      - libapache2-mod-php
+      - php-gd
+      - php
+      - apache2
+
+
+
+- name: download nagios
+  get_url:
+    url: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.6.tar.gz
+    dest: /home/saad/nagios
+
+- name: unzip the nagios package
+  unarchive:
+    src: /home/saad/nagios/nagios-4.4.6.tar.gz
+    dest: /home/saad/nagios
+
+- name: configure
+  command: "{{ item }}"
+  args:
+    chdir: /home/saad/nagios/nagios-4.4.6/
+  with_items:
+    - ./configure
+    - make all
+    - make install-groups-users
+    - usermod -a -G saad www-data
+    - make install
+    - make install-init
+    - make install-commandmode
+    - make install-config
+    - make install-webconf 
+    - a2enmod rewrite
+    - a2enmod cgi
+    - ufw allow apache
+    - ufw enable
+    - ufw reload
+    
+
+- name: restart apache
+  systemd:
+    name: apache2
+    state: restarted
+
+- name: create admin user for nagios
+  command: htpasswd -cb /usr/local/nagios/etc/htpasswd.users nagiosadmin admin123
+
+
+- name: install nagios plugins
+  get_url:
+    url: https://nagios-plugins.org/download/nagios-plugins-2.4.10.tar.gz
+    dest: /tmp
+
+
+- name: extract nagios plugins
+  unarchive:
+    src: /tmp/nagios-plugins-2.4.10.tar.gz
+    dest: /tmp
+    remote_src: yes
+
+
+- name: configure nagios plugins
+  shell: cd /tmp/nagios-plugins-2.4.10 && ./configure && make && make install
+
+
+- name: start nagios service
+  service:
+    name: nagios
+    state: started

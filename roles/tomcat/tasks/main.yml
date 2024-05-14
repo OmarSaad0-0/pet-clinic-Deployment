@@ -1,0 +1,17 @@
+---
+# tasks file for tomcat
+- name: Jdk Installation
+  shell: "/home/saad/ansible/roles/tomcat/files/Jdk_installation.sh"
+- name: Tomcat Download
+  get_url:
+    url: "https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.23/bin/apache-tomcat-10.1.23.tar.gz"
+    dest: /home/saad/apache-tomcat-10.1.23.tar.gz
+- name: extract tomcat archive
+  ansible.builtin.unarchive:
+    src: "/home/saad/apache-tomcat-10.1.23.tar.gz"
+    dest: "/home/saad/tomcat"
+    remote_src: yes
+    extra_opts: --strip-components=1
+- name: start tomcat service
+  shell: "/home/saad/tomcat/bin/startup.sh"
+

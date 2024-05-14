@@ -1,0 +1,23 @@
+---
+- name: Configure Tomcat Server
+  hosts: localhost
+  vars:
+    tomcat_port: "9090"
+  tasks:
+    - name: modify server.xml port number
+      lineinfile:
+        path: /home/saad/tomcat/conf/server.xml
+        regexp: '^\s*<Connector\s+port="(\d+)"\s+protocol="HTTP/1.1"\s+'
+        line: '<Connector port="{{ tomcat_port }}" protocol="HTTP/1.1"'
+    - name: Add manager and gui roles to tomcat-users.xml
+      blockinfile:
+        path: /home/saad/tomcat/conf/tomcat-users.xml
+        block: |
+          <role rolename= "admin-gui" />
+          <role rolename= "manager-gui" />
+          <user username= "tomcat" password= "admin123" roles= "manager-gui" />
+        insertbefore: '^</tomcat-users>' 
+    - name: Restart Tomcat Service
+      shell: "/home/saad/tomcat/bin/shutdown.sh && sleep 5 && /home/saad/tomcat/bin/startup.sh"
+
+

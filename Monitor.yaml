@@ -1,0 +1,24 @@
+- name: Monitor Tomcat with nagios
+  hosts: localhost
+  # vars:
+  #   ansible_become_password: "osaad4899@"
+  gather_facts: false
+  become: true
+  tasks:
+    - name: configure nagios to monitor tomcat
+      copy:
+       src: tomcat.cfg
+       dest: /usr/local/nagios/etc/objects/tomcat.cfg
+
+
+    - name: Add a line to the end of a file
+      lineinfile:
+         path: /usr/local/nagios/etc/nagios.cfg
+         line: "cfg_file=/usr/local/nagios/etc/objects/tomcat.cfg"
+         insertafter: EOF
+
+
+    - name: restart nagios service
+      service:
+       name: nagios
+       state: restarted

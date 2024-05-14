@@ -1,0 +1,12 @@
+- name: server installations
+  become: true
+
+  gather_facts: false
+  hosts: localhost
+  vars:
+    ansible_become_password: "osaad4899@"
+  roles:
+    #- role: roles/tomcat
+    - role: roles/nagios
+    #- role: roles/jenkins
+
