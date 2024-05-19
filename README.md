@@ -3,7 +3,7 @@
 <li>Tomcat</li>
 <li>Nagios</li>
 <li>Jenkins</li>
-<h3>Each component configration is done in a separate role and then executed all roles in the configration playbook</h3>
+<h3>Each component installation is done in a separate role and then executed all roles in the configration playbook (InstallationPlaybook.yaml). Specific configrations is conducted on tomcat to make it operatable on port 9090 and to set up admin credentials (ConfigTomcatPlaybook.yml)</h3>
 <h3>Defined in the inventory file the server that will be managed by ansible</h3>
 <h3>Build and Deployment is done through Jenkins pipeline</h3>
 <h4>This pipeline is responsible for:</h4>
