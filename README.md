@@ -9,26 +9,26 @@
 <h2>nginx is installed and used as load balancer between the two enviroments for smooth deployment</h2>
 <h3>Steps of nginx installation configrations of nginx through linux terminal:</h3>
 <label>nginx dependencies installation</label>
-<ol>sudo apt install build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev</ol>
+<li>sudo apt install build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev</li>
 <label>Download nginx:</label>
-<ol>wget http://nginx.org/download/nginx-1.24.0.tar.gz</ol>
+<li>wget http://nginx.org/download/nginx-1.24.0.tar.gz</li>
 <label>Extract nginx tar file:</label>
-<ol>tar -zxvf nginx-1.24.0.tar.gz</ol>
+<li>tar -zxvf nginx-1.24.0.tar.gz</li>
 <label>Extract nginx tar file:</label>
-<ol>tar -zxvf nginx-1.24.0.tar.gz</ol>
+<li>tar -zxvf nginx-1.24.0.tar.gz</li>
 <label>change directory to extracted file:</label>
-<ol>cd nginx-1.24.0</ol>
+<li>cd nginx-1.24.0</li>
 <label>Configure the build options:</label>
-<ol>./configure</ol>
+<li>./configure</li>
 <label>Compile and install nginx:</label>
-<ol>sudo make install</ol>
+<li>sudo make install</li>
 <label>start nginx:</label>
-<ol>sudo /opt/nginx/sbin/nginx</ol>
+<li>sudo /opt/nginx/sbin/nginx</li>
 <label>servers addition to nginx load balancer (nginx.conf modification):</label>
 <ol><img src="nginx1.png"></ol>
 <ol><img src="nginx2.png"></ol>
 <label>restart nginx after applying modifications:</label>
-<ol>sudo /opt/nginx/sbin/nginx -s reload</ol>
+<li>sudo /opt/nginx/sbin/nginx -s reload</li>
 <h3>Build and Deployment is done through Jenkins pipeline</h3>
 <h4>This pipeline is responsible for:</h4>
 <li>Fetch for the updated git repository</li>
