@@ -4,7 +4,7 @@
 <li>Tomcat</li>
 <li>Nagios</li>
 <li>Jenkins</li>
-<h3>Each component installation is done in a separate role and then executed all roles in the configration playbook (InstallationPlaybook.yaml). Specific configrations is conducted on tomcat to make it operatable on port 9090 and to set up admin credentials (ConfigTomcatPlaybook.yml)</h3>
+<h3>Each component installation is done in a separate role and then executed all roles in the configration playbook (InstallationPlaybook.yaml). Specific configrations is conducted on tomcat to make it operatable on port 9090 and to set up admin credentials (ConfigTomcatPlaybook.yml). A replica from the tomcat instance is created to be used in the deployment (Green-InstanceConfig.yaml)</h3>
 <h3>Defined in the inventory file the server that will be managed by ansible</h3>
 <h2>nginx is installed and used as load balancer between the two enviroments for smooth deployment</h2>
 <h3>Steps of nginx installation configrations of nginx through linux terminal:</h3>
