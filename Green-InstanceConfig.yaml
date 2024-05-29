@@ -1,0 +1,30 @@
+---
+- name: Configure Tomcat Instances
+  hosts: localhost
+  tasks:
+
+    - name: Create Green Instance Directory
+      file:
+        path: /home/saad/GreenInstance
+        state: directory
+
+    - name: Copy tomcat to Blue Instances
+      command: cp -avr /home/saad/tomcat/ /home/saad/GreenInstance/
+    
+    - name: Configure Connection Port For Green Instance
+      lineinfile:
+        path: /home/saad/GreenInstance/tomcat/conf/server.xml
+        regexp: '9090'
+        line: '<Connector port="9091" protocol="HTTP/1.1"'
+     
+
+    - name: Configure Shutdown Port For Green Instance
+      lineinfile:
+        path: /home/saad/GreenInstance/tomcat/conf/server.xml
+        regexp: '8005'
+        line: '<Server port="8007" shutdown="SHUTDOWN">'
+ 
+    - name: Restart Tomcat Service
+      shell: "/home/saad/GreenInstance/tomcat/bin/shutdown.sh && sleep 5 && /home/saad/GreenInstance/tomcat/bin/startup.sh"
+
+     
