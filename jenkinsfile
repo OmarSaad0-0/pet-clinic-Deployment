@@ -47,9 +47,15 @@ pipeline {
                     fi
                     mv /home/saad/.jenkins/workspace/spring-petclinic/target/*.war /home/saad/.jenkins/workspace/spring-petclinic/target/spring-petclinic.war
                     cp /home/saad/.jenkins/workspace/spring-petclinic/target/*.war ~/tomcat/webapps/
-                    sudo cp /home/saad/Blue-Green-deployment/ActiveServer-9090/nginx.conf /usr/local/nginx/conf/nginx.conf
-                    sudo /usr/local/nginx/sbin/nginx -s reload
-                    echo "9090" > '/home/saad/Blue-Green-deployment/CurrentActiveServer'
+                    sleep 25
+                    status=$(curl -Is http://localhost:9090/spring-petclinic/ | head -n 1 | awk '{print $2}')
+                    if [ "$status" = "200" ]; then
+                        sudo cp /home/saad/Blue-Green-deployment/ActiveServer-9090/nginx.conf /usr/local/nginx/conf/nginx.conf
+                        sudo /usr/local/nginx/sbin/nginx -s reload
+                        echo "9090" > '/home/saad/Blue-Green-deployment/CurrentActiveServer'
+                    else
+                        echo "Deployment Failed the latest stable version is still up"
+                    fi
                 else
                     if ls /home/saad/GreenInstance/tomcat/webapps/*.war 1>/dev/null 2>&1;             
                     then
@@ -57,9 +63,15 @@ pipeline {
                     fi
                     mv /home/saad/.jenkins/workspace/spring-petclinic/target/*.war /home/saad/.jenkins/workspace/spring-petclinic/target/spring-petclinic.war
                     cp /home/saad/.jenkins/workspace/spring-petclinic/target/*.war ~/GreenInstance/tomcat/webapps/
-                    sudo cp /home/saad/Blue-Green-deployment/ActiveServer-9091/nginx.conf /usr/local/nginx/conf/nginx.conf
-                    sudo /usr/local/nginx/sbin/nginx -s reload
-                    echo "9091" > '/home/saad/Blue-Green-deployment/CurrentActiveServer'
+                    sleep 25
+                    status=$(curl -Is http://localhost:9091/spring-petclinic/ | head -n 1 | awk '{print $2}')
+                    if [ "$status" = "200" ]; then
+                        sudo cp /home/saad/Blue-Green-deployment/ActiveServer-9091/nginx.conf /usr/local/nginx/conf/nginx.conf
+                        sudo /usr/local/nginx/sbin/nginx -s reload
+                        echo "9091" > '/home/saad/Blue-Green-deployment/CurrentActiveServer'
+                    else
+                        echo "Deployment Failed the latest stable version is still up"
+                    fi
                 fi 
                 
                 '''
