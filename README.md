@@ -35,8 +35,10 @@
 <li>Edit the pom.xml file in the java application to generate war file</li>
 <li>Edit the main java class in the application to make it able to run on a server</li>
 <li>Run the build command to build the application</li>
-<li>Deploy the packed application to apache tomcat server</li>
+<li>Identify the server which traffic is directed to and start deployment to the idle one</li>
+<li>Deploy the packed application to apache idle tomcat inctance</li>
+<li>check the if the deployment runs smoothly then direct traffic to it</li>
 <h3>Server monitoring is done through Nagios</h3>
 <h4>The monitoring proccess is responsible for runinng sanity checks to monitor tomcat server which is done as follows :</h4>
-<li>Define nagios service to monitor tomcat in tomcat.cfg</li>
+<li>Define nagios service to monitor the two tomcat instances in tomcat.cfg</li>
 <li>Execute playbook to save nagios service configrations and restart nagios (Monitor.yaml)</li>
